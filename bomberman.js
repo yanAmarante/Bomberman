@@ -17,6 +17,19 @@ const DIREITA = 39;
 const BAIXO = 40;
 const ESPACO = 32;
 
+var bomba = false;
+var bombaLaranja = false;
+var bombaPreto = false;
+
+var bombaPosicionamento = [];
+
+var bombaX = bomberman.x;
+var bombaY = bomberman.y;
+var bombaLaranjaPosicionamentoX;
+var bombaLaranjaPosicionamentoY;
+var bombaPretoPosicionamentoX;
+var bombaPretoPosicionamentoY;
+
 
 
 
@@ -48,78 +61,79 @@ function desenharBomberman() {
     pincel.fill();
 }
 
-var bomba = false;
-var bombaLaranja = false;
-var bombaPreto = false;
-
-var bombaX = bomberman.x;
-var bombaY = bomberman.y;
-var bombaPosicionamento = [];
-
-
-
 function desenharBomba(){
 
     for(let i = 0; i < 100; i++){
 
         if(bomba === false){
+        
         bombaPosicionamento[0] = bomberman.x;
         bombaPosicionamento[1] = bomberman.y;
-        }
+        
+    }
 
     }
 
     if(bomba === true){
+    
+    bombaLaranjaPosicionamentoX = bombaPosicionamento[0];
+    bombaLaranjaPosicionamentoY = bombaPosicionamento[1];
+    bombaPretoPosicionamentoX = bombaPosicionamento[0];
+    bombaPretoPosicionamentoY = bombaPosicionamento[1];
+    
     pincel.fillStyle="red";
     pincel.fillRect(bombaPosicionamento[0], bombaPosicionamento[1], bomberman.largura, bomberman.altura);
-    pincel.fill();
-    setInterval(bombaExplosao, 3000)
-    bombaLaranja = true;
-    }
+    
+    setTimeout(bombaExplosao, 1000);
+    
+}
 }
 
 
 
 function bombaExplosao(){
 
+    bombaLaranja = true;
+    
     if(bombaLaranja === true){
+    
+    pincel.fillStyle="red";
+    pincel.fillRect(bombaLaranjaPosicionamentoX, bombaLaranjaPosicionamentoY, bomberman.largura, bomberman.altura);
+    
     pincel.fillStyle="orange";
-    pincel.fillRect(bombaPosicionamento[0],  bombaPosicionamento[1] - 25, bomberman.largura, bomberman.altura);
-    pincel.fillRect(bombaPosicionamento[0],  bombaPosicionamento[1] + 25, bomberman.largura, bomberman.altura);
-    pincel.fillRect(bombaPosicionamento[0] + 25, bombaPosicionamento[1], bomberman.largura, bomberman.altura);
-    pincel.fillRect(bombaPosicionamento[0] - 25, bombaPosicionamento[1], bomberman.largura, bomberman.altura);
-    pincel.fill();
-    setInterval(bombaQuadrado,500)
-    bombaPreto = true;
-    }
+    pincel.fillRect(bombaLaranjaPosicionamentoX, bombaLaranjaPosicionamentoY - 25, bomberman.largura, bomberman.altura);
+    pincel.fillRect(bombaLaranjaPosicionamentoX, bombaLaranjaPosicionamentoY + 25, bomberman.largura, bomberman.altura);
+    pincel.fillRect(bombaLaranjaPosicionamentoX + 25, bombaLaranjaPosicionamentoY, bomberman.largura, bomberman.altura);
+    pincel.fillRect(bombaLaranjaPosicionamentoX - 25, bombaLaranjaPosicionamentoY, bomberman.largura, bomberman.altura);
+    
+    setTimeout(bombaQuadrado,10)
+    
+}
   
 }
 
 function bombaQuadrado(){
-
-    if(bombaPreto = true){
-    pincel.fillStyle="black";
-    pincel.fillRect(bombaPosicionamento[0],  bombaPosicionamento[1] - 25, 0, 0);
-    pincel.fillRect(bombaPosicionamento[0],  bombaPosicionamento[1] + 25, 0, 0);
-    pincel.fillRect(bombaPosicionamento[0] + 25, bombaPosicionamento[1], 0, 0);
-    pincel.fillRect(bombaPosicionamento[0] - 25, bombaPosicionamento[1], 0, 0);
-    pincel.fill();
+    
+    /*pincel.fillStyle="black";
+    pincel.fillRect(bombaPretoPosicionamentoX, bombaPretoPosicionamentoY - 25, 0, 0);
+    pincel.fillRect(bombaPretoPosicionamentoX, bombaPretoPosicionamentoY + 25, 0, 0);
+    pincel.fillRect(bombaPretoPosicionamentoX + 25, bombaPretoPosicionamentoY, 0, 0);
+    pincel.fillRect(bombaPretoPosicionamentoX - 25, bombaPretoPosicionamentoY, 0, 0);
+    */
     bombaPreto = false;
     bomba = false;
     bombaLaranja = false;
-    }  
+
+    /*for(let i = 0; i < 100; i++){
+        pincel.fillStyle="black";
+        pincel.fillRect(bombaLaranjaPosicionamentoX, bombaLaranjaPosicionamentoY - 25, 0, 0);
+        pincel.fillRect(bombaLaranjaPosicionamentoX, bombaLaranjaPosicionamentoY + 25, 0, 0);
+        pincel.fillRect(bombaLaranjaPosicionamentoX - 25, bombaLaranjaPosicionamentoY, 0, 0);
+        pincel.fillRect(bombaLaranjaPosicionamentoX + 25, bombaLaranjaPosicionamentoY, 0, 0);
+    }*/
+    
+ 
 }
-
-
-function atualizarTela() {
-    limparTela();
-    desenharBomberman();
-    desenharBomba();
-}
-
-
-setInterval(atualizarTela, 20);
-
 
 function leDoTeclado(evento) {
     
@@ -142,6 +156,31 @@ function leDoTeclado(evento) {
     }
 }
 
+function matriz (){
+    
+    pincel.fillStyle="brown";
+    pincel.fillRect(50, 50, 25, 25);
+    pincel.fillRect(75, 75, 25, 25);
+    pincel.fillRect(100, 100, 25, 25);
+    pincel.fillRect(125, 125, 25, 25);
+    pincel.fillRect(150, 125, 25, 25);
+    pincel.fillRect(175, 125, 25, 25);
+    pincel.fillRect(200, 125, 25, 25);
+
+}
+
+
+function atualizarTela() {
+    limparTela();
+    desenharBomberman();
+    desenharBomba();
+    matriz();
+}
+
+
+setInterval(atualizarTela, 20);
 
 document.onkeydown = leDoTeclado;
+
+
 
